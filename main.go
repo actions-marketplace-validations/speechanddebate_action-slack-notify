@@ -11,19 +11,9 @@ import (
 
 const (
 	EnvSlackWebhook   = "SLACK_WEBHOOK"
-	EnvSlackIcon      = "SLACK_ICON"
-	EnvSlackIconEmoji = "SLACK_ICON_EMOJI"
 	EnvSlackChannel   = "SLACK_CHANNEL"
-	EnvSlackTitle     = "SLACK_TITLE"
-	EnvSlackMessage   = "SLACK_MESSAGE"
-	EnvSlackColor     = "SLACK_COLOR"
 	EnvSlackUserName  = "SLACK_USERNAME"
-	EnvSlackFooter    = "SLACK_FOOTER"
-	EnvGithubActor    = "GITHUB_ACTOR"
-	EnvSiteName       = "SITE_NAME"
-	EnvHostName       = "HOST_NAME"
-	EnvMinimal        = "MSG_MINIMAL"
-	EnvSlackLinkNames = "SLACK_LINK_NAMES"
+	EnvSlackIcon      = "SLACK_ICON"
 )
 
 type Webhook struct {
@@ -42,43 +32,22 @@ func main() {
 		fmt.Fprintln(os.Stderr, "URL is required")
 		os.Exit(1)
 	}
-	message := os.Getenv(EnvSlackMessage)
-	if message == "" {
-		fmt.Fprintln(os.Stderr, "Message is required")
-		os.Exit(1)
-	}
-	if strings.HasPrefix(os.Getenv("GITHUB_WORKFLOW"), ".github") {
-		os.Setenv("GITHUB_WORKFLOW", "Link to action run")
-	}
 
-	/*
-	color := ""
-	switch os.Getenv(EnvSlackColor) {
-	case "success":
-		color = "good"
-	case "cancelled":
-		color = "#808080"
-	case "failure":
-		color = "danger"
-	default:
-		color = envOr(EnvSlackColor, "good")
-	}
-	*/
-
-	text := ""
-	text += os.Getenv(EnvSlackTitle)
+	text := os.Getenv(EnvSlackIcon)
 	text += "<https://github.com/"
 	text += os.Getenv("GITHUB_REPOSITORY")
 	text += "/commit/"
 	text += os.Getenv("GITHUB_SHA")
 	text += "/checks|["
 	text += strings.Split(os.Getenv("GITHUB_REPOSITORY"), "/")[1]
-	text += ":" + os.Getenv("GITHUB_REF_NAME")
-	text += ":" + os.Getenv("GITHUB_SHA")[0:6]
+	text += "|" + os.Getenv("GITHUB_REF_NAME")
+	text += "|" + os.Getenv("GITHUB_SHA")[0:6]
 	text += "]>"
 	text += " - "
-	text += envOr(EnvGithubActor, "")
+	text += os.Getenv("GITHUB_ACTOR")
 	text += " (" + os.Getenv("GITHUB_WORKFLOW") + ")"
+	text += " - "
+	text += os.Getenv("COMMIT_MESSAGE")
 
 	msg := Webhook{
 		Text:	  text,
