@@ -67,7 +67,6 @@ func main() {
 
 	text := ""
 	text += os.Getenv(EnvSlackTitle)
-	text += "<"
 	text += "<https://github.com/"
 	text += os.Getenv("GITHUB_REPOSITORY")
 	text += "/commit/"
