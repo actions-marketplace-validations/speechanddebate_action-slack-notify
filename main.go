@@ -42,8 +42,8 @@ func main() {
 		fmt.Fprintln(os.Stderr, "URL is required")
 		os.Exit(1)
 	}
-	text := os.Getenv(EnvSlackMessage)
-	if text == "" {
+	message := os.Getenv(EnvSlackMessage)
+	if message == "" {
 		fmt.Fprintln(os.Stderr, "Message is required")
 		os.Exit(1)
 	}
@@ -66,7 +66,7 @@ func main() {
 		color = envOr(EnvSlackColor, "good")
 	}
 
-	text := os.Getenv(EnvSlackTitle) + os.Getenv(EnvSlackText) + " - " + envOf(EnvGithubActor, "") + "(" + os.Getenv("GITHUB_WORKFLOW") + ")"
+	text := os.Getenv(EnvSlackTitle) + message + " - " + envOr(EnvGithubActor, "") + "(" + os.Getenv("GITHUB_WORKFLOW") + ")"
 
 	msg := Webhook{
 		Text:	  text,
