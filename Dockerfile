@@ -1,4 +1,4 @@
-FROM golang:1.14-alpine3.11@sha256:6578dc0c1bde86ccef90e23da3cdaa77fe9208d23c1bb31d942c8b663a519fa5 AS builder
+FROM golang:1.21.0-alpine3.18 AS builder
 
 LABEL "com.github.actions.icon"="bell"
 LABEL "com.github.actions.color"="yellow"
@@ -12,11 +12,11 @@ COPY main.go ${GOPATH}/src/github.com/speechanddebate/action-slack-notify
 ENV CGO_ENABLED 0
 ENV GOOS linux
 
-RUN go get -v ./...
+RUN go mod init
+RUN go mod download
 RUN go build -a -installsuffix cgo -ldflags '-w  -extldflags "-static"' -o /go/bin/slack-notify .
 
-# alpine:latest at 2020-01-18T01:19:37.187497623Z
-FROM alpine@sha256:ab00606a42621fb68f2ed6ad3c88be54397f981a7b70a79db3d1172b11c4367d
+FROM alpine:3.18.3
 
 COPY --from=builder /go/bin/slack-notify /usr/bin/slack-notify
 
@@ -28,10 +28,10 @@ RUN apk update \
 	bash \
 	jq \
 	ca-certificates \
-	python \
-	py2-pip \
+	python3 \
 	rsync && \
-	pip install shyaml && \
+	python3 -m ensurepip && \
+	python3 -m pip install shyaml && \
 	rm -rf /var/cache/apk/*
 
 # fix the missing dependency - https://stackoverflow.com/a/35613430
