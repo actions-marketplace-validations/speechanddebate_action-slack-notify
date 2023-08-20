@@ -51,6 +51,7 @@ func main() {
 		os.Setenv("GITHUB_WORKFLOW", "Link to action run")
 	}
 
+	/*
 	long_sha := os.Getenv("GITHUB_SHA")
 	commit_sha := long_sha[0:6]
 
@@ -65,6 +66,7 @@ func main() {
 	default:
 		color = envOr(EnvSlackColor, "good")
 	}
+	*/
 
 	text := os.Getenv(EnvSlackTitle) + message + " - " + envOr(EnvGithubActor, "") + "(" + os.Getenv("GITHUB_WORKFLOW") + ")"
 
