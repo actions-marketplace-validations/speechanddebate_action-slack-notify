@@ -73,7 +73,7 @@ func main() {
 	text += "/commit/"
 	text += os.Getenv("GITHUB_SHA")
 	text += "/checks|["
-	text += os.Getenv("GITHUB_REPOSITORY")
+	text += strings.Split(os.Getenv("GITHUB_REPOSITORY"), "/")[1]
 	text += ":" + os.Getenv("GITHUB_REF_NAME")
 	text += ":" + os.Getenv("GITHUB_SHA")[0:6]
 	text += "]>"
