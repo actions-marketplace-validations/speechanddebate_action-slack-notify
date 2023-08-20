@@ -32,6 +32,11 @@ func main() {
 		fmt.Fprintln(os.Stderr, "URL is required")
 		os.Exit(1)
 	}
+	channel := os.Getenv(EnvSlackChannel)
+	if channel == "" {
+		fmt.Fprintln(os.Stderr, "Channel is required")
+		os.Exit(1)
+	}
 
 	text := os.Getenv(EnvSlackIcon)
 	text += "<https://github.com/"

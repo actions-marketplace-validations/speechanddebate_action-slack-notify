@@ -20,19 +20,13 @@ FROM alpine:3.18.3
 
 COPY --from=builder /go/bin/slack-notify /usr/bin/slack-notify
 
-ENV VAULT_VERSION 1.0.2
-
 RUN apk update \
 	&& apk upgrade \
 	&& apk add \
 	bash \
 	jq \
 	ca-certificates \
-	python3 \
-	rsync && \
-	python3 -m ensurepip && \
-	python3 -m pip install shyaml && \
-	rm -rf /var/cache/apk/*
+	&& rm -rf /var/cache/apk/*
 
 # fix the missing dependency - https://stackoverflow.com/a/35613430
 RUN mkdir /lib64 && ln -s /lib/libc.musl-x86_64.so.1 /lib64/ld-linux-x86-64.so.2
