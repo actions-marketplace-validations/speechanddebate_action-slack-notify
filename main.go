@@ -52,9 +52,6 @@ func main() {
 	}
 
 	/*
-	long_sha := os.Getenv("GITHUB_SHA")
-	commit_sha := long_sha[0:6]
-
 	color := ""
 	switch os.Getenv(EnvSlackColor) {
 	case "success":
@@ -68,7 +65,21 @@ func main() {
 	}
 	*/
 
-	text := os.Getenv(EnvSlackTitle) + os.Getenv("GITHUB_REPOSITORY") + " - " + message + " - " + envOr(EnvGithubActor, "") + "(" + os.Getenv("GITHUB_WORKFLOW") + ")"
+	text := ""
+	text += os.Getenv(EnvSlackTitle)
+	text += "<"
+	text += "<https://github.com/"
+	text += os.Getenv("GITHUB_REPOSITORY")
+	text += "/commit/"
+	text += os.Getenv("GITHUB_SHA")
+	text += "/checks|["
+	text += os.Getenv("GITHUB_REPOSITORY")
+	text += ":" + os.Getenv("GITHUB_REF_NAME")
+	text += ":" + os.Getenv("GITHUB_SHA")[0:6]
+	text += "]>"
+	text += " - "
+	text += envOr(EnvGithubActor, "")
+	text += " (" + os.Getenv("GITHUB_WORKFLOW") + ")"
 
 	msg := Webhook{
 		Text:	  text,
