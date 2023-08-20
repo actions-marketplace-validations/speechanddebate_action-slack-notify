@@ -1,5 +1,5 @@
-name: 'Slack Notify'
-description: 'This action will send a notification to Slack'
+name: 'Single Line Slack Notification'
+description: 'This action will send a single line notification to Slack'
 author: 'speechanddebate'
 runs:
   using: 'docker'

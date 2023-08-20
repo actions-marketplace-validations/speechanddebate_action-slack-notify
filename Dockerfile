@@ -2,8 +2,8 @@ FROM golang:1.21.0-alpine3.18 AS builder
 
 LABEL "com.github.actions.icon"="bell"
 LABEL "com.github.actions.color"="yellow"
-LABEL "com.github.actions.name"="Slack Notify"
-LABEL "com.github.actions.description"="This action will send notification to Slack"
+LABEL "com.github.actions.name"="Single Line Slack Notification"
+LABEL "com.github.actions.description"="This action will send a single line notification to Slack"
 LABEL "org.opencontainers.image.source"="https://github.com/speechanddebate/action-slack-notify"
 
 WORKDIR ${GOPATH}/src/github.com/speechanddebate/action-slack-notify
