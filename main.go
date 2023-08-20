@@ -68,7 +68,7 @@ func main() {
 	}
 	*/
 
-	text := os.Getenv(EnvSlackTitle) + message + " - " + envOr(EnvGithubActor, "") + "(" + os.Getenv("GITHUB_WORKFLOW") + ")"
+	text := os.Getenv(EnvSlackTitle) + os.Getenv("GITHUB_REPOSITORY") + " - " + message + " - " + envOr(EnvGithubActor, "") + "(" + os.Getenv("GITHUB_WORKFLOW") + ")"
 
 	msg := Webhook{
 		Text:	  text,
